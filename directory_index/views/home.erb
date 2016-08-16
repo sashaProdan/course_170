@@ -1,0 +1,23 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>My list</title>
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+<body>
+  <div class="list">
+    <h1>Welcome to my Directory</h1>
+      <% @files.each do |file| %>
+        <p><a href="<%= file %>"</a><%= file %></p>
+      <% end %>
+  </div>
+  <div class="links">
+  	<% if params[:sort] == "desc" %>
+	  <a href="/">Sort ascending</a>
+	<% else %>
+      <a href="/?sort=desc">Sort descending</a>
+    <% end %>
+  </div>
+</body>
+</html>

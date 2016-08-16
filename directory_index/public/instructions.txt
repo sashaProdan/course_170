@@ -1,0 +1,3 @@
+iPhone User Guide
+
+iPhone 5 uses iOS, Apple’s mobile operating system. The user interface of iOS is based on the concept of direct manipulation, using multi-touch gestures. Interface control elements consist of sliders, switches, and buttons. Interaction with the OS includes gestures such as swipe, tap, pinch, and reverse pinch, all of which have specific definitions within the context of the iOS operating system and its multi-touch interface. Internal accelerometers are used by some applications to respond to shaking the device (one common result is the undo command) or rotating it vertically (one common result is switching from portrait to landscape mode).

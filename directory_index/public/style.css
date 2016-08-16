@@ -1,0 +1,14 @@
+a {
+  text-decoration: none;
+}
+
+.list p a {
+  color: blue;
+  font-size: 20px;
+}
+
+.links a {
+  padding-right: 15px;
+  font-size: 16px;
+  border: 1px solid grey;
+}
