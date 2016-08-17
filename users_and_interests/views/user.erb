@@ -1,0 +1,14 @@
+<h3>Email address</h3>
+  <p><%=  @user[:email] %></p>
+<h3>Interests</h3>
+  <ul>
+  	<% @user[:interests].each do |interest| %>
+  	  <li><%= interest %></li>
+  	<% end %>
+ </ul>
+
+ <h4>Links to other users pages</h4>
+   <% @links.each do |name| %>
+    <a href="/users/<%= name.to_sym %>"><%= name %></a>
+    <% end %>
+ 
