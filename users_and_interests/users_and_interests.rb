@@ -8,10 +8,6 @@ helpers do
       total + hash[:interests].size
     end
   end 
-
-  def count_users
-    @users.keys.size
-  end
 end
 
 before do
