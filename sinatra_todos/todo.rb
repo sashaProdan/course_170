@@ -85,10 +85,10 @@ post "/lists/:id" do
   end
 end
 
-delete "/lists/:id/delete" do
-  list_name = params[:list_name].strip
+# Delete a todo list
+post "/lists/:id/destroy" do
   id = params[:id].to_i
-  @list = session[:lists][id]
-  @list.delete([:name])
+  session[:lists].delete_at(id)   
+  session[:success] = "The list has been deleted"
   redirect "/lists"
 end
