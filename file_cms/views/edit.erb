@@ -1,0 +1,6 @@
+<p>Edit content of <%= params[:file_name] %></p>
+<form action="/<%= params[:file_name] %>" method="post">
+	<textarea name="text" style="width: 50%" rows="20" columns="60"><%= @content %>
+	</textarea>
+	<p><button type="submit">Save Changes</button></p>
+</form>

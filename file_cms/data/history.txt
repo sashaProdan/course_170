@@ -1,13 +1,1 @@
-Ruby was born in 1993, conceieved in a discussion between Yukihiro Matsumoto (“Matz”) and a colleague. They were discussing the possibility of an object-oriented scripting-language. Matz stated in ruby-talk:00382 that he knew Perl, but did not like it very much; that it had the smell of a “toy” language. He also discussed that he knew Python, but didn’t like it because it wasn’t a true object-oriented programming language.
-
-Matz wanted a language perfect for his needs:
-
-- Syntactically Simple
-- Truly Object-Oriented
-- Having Iterators and Closures
-- Exception Handling
-- Garbage Collection
-- Portable
-
-Having looked around and not found a language suited for him, Yukihiro Matsumoto decided to create his own. After spending several months writing an interpreter, Matz finally published the first public version of Ruby (0.95) to various Japanese domestic newsgroups in December, 1995. You can still download the infant version of Ruby here at your own risk.
-
+ERROOOOOOOOOR
