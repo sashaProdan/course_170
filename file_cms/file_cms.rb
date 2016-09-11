@@ -70,6 +70,9 @@ post "/:file_name" do
   redirect "/"
 end
 
+get "/new" do
+  erb :new
+end
 
 
 

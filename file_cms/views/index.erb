@@ -8,8 +8,10 @@
 
 <ul> 
   <% @files.each do |file| %>
- 	<li><a href="/<%= file %>"><%= file %></a>&nbsp;
+ 	<li><a href="/<%= file %>" class="no-decoration"><%= file %></a>&nbsp;
  		<a href="/<%= file %>/edit">Edit</a>
  	</li>
   <% end %>
 </ul>
+
+<a href="/new">New Document</a>

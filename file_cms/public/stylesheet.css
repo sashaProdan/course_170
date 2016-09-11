@@ -4,8 +4,17 @@
 
 body {
   font-family: sans-serif;
+  padding-left: 20px;
 }
 
 .alert {
   background-color: yellow;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+li {
+  list-style-type: decimal;
 }
