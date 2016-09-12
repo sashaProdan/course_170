@@ -1,15 +1,14 @@
-<% if session[:error] %>
-  <p class="alert"><%= session.delete(:error) %></p>
-<% end %>
-
-<% if session[:success] %>
-  <p class="alert"><%= session.delete(:success) %></p>
+<% if session[:message] %>
+  <p class="alert"><%= session.delete(:message) %></p>
 <% end %>
 
 <ul> 
   <% @files.each do |file| %>
  	<li><a href="/<%= file %>" class="no-decoration"><%= file %></a>&nbsp;
  		<a href="/<%= file %>/edit">Edit</a>
+ 		<form action="<%= file %>/delete" method="post">
+ 			<button type="submit">Delete</button>
+ 		</form>
  	</li>
   <% end %>
 </ul>

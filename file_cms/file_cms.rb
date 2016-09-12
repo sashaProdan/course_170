@@ -2,6 +2,7 @@ require "sinatra"
 require "sinatra/reloader" if development?
 require "tilt/erubis"
 require "redcarpet"
+require "fileutils"
 
 configure do
   enable :sessions
@@ -42,13 +43,32 @@ def load_content(path)
   end
 end
 
+get "/new" do
+  erb :new
+end
+
+post "/new" do
+  new_file = params[:filename].to_s.strip
+  dir = File.join(data_path, new_file)
+  
+  if new_file.size == 0
+    session[:message] = "A name is required."
+    status 422
+    erb :new
+  else
+    File.write(dir, "")
+    session[:message] = "#{new_file} was created."
+    redirect "/"
+  end
+end
+
 get "/:file_name" do
   file = File.join(data_path, params[:file_name])
   
   if File.file? file
     load_content(file)
   else
-    session[:error] = "#{params[:file_name]} does not exist" 
+    session[:message] = "#{params[:file_name]} does not exist" 
     redirect "/"
   end
 end
@@ -60,20 +80,20 @@ get "/:file_name/edit" do
   erb :edit
 end
 
+post "/:file_name/delete" do
+  file = File.join(data_path, params[:file_name])
+
+  File.delete(file)
+  session[:message] = "#{params[:file_name]} was deleted."
+  redirect "/"
+end
+
 post "/:file_name" do
-  file = "data/#{params[:file_name]}"
+  file = File.join(data_path, params[:file_name])
   @content = File.read(file)
   
   File.write(file, params[:text])
 
-  session[:success] = "#{params[:file_name]} has been updated."
+  session[:message] = "#{params[:file_name]} has been updated."
   redirect "/"
 end
-
-get "/new" do
-  erb :new
-end
-
-
-
-

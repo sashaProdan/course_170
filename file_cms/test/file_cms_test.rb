@@ -87,11 +87,57 @@ class AppTest < Minitest::Test
 
     get last_response["Location"]
 
-    assert_includes last_response.body, "changes.txt has been updated."
+    assert_includes last_response.body, "changes.txt has been updated."#
 
     get "/changes.txt"
 
     assert_equal 200, last_response.status
-    assert_equal "Hey", last_response.body
+  end
+
+  def test_create_new_document
+    get "/"
+
+    assert_includes last_response.body, '<a href="/new">New Document</a>'
+
+    get "/new"
+
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, "New document name"
+    assert_includes last_response.body, '<button type="submit">Create</button>'
+    assert_includes last_response.body, '<form action="/new" method="post">'
+  end
+
+  def test_save_new_document
+    post "/new", filename: "hello.txt"
+    assert_equal 302, last_response.status
+
+    get last_response["Location"]
+    assert_includes last_response.body, "hello.txt was created"
+
+    get "/"
+    assert_includes last_response.body, 'hello.txt'
+  end
+
+  def test_create_new_document_without_name
+    post "/new", filename: ""
+    assert_equal 422, last_response.status
+    assert_includes last_response.body, "A name is required."
+  end
+
+  def test_delete_document
+    create_document "hello.txt"
+    create_document "bye.txt"
+
+    get "/"
+    assert_includes last_response.body, "hello.txt"
+    assert_includes last_response.body, "bye.txt"
+    assert_includes last_response.body, '<button type="submit">Delete</button>'
+
+    post "/hello.txt/delete"
+    assert_equal false, File.exist?('hello.txt')
+    get last_response["Location"]
+
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, "hello.txt was deleted."
   end
 end

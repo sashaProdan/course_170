@@ -1,4 +1,8 @@
-<form action="/create" method="post">
+<% if session[:message] %>
+  <p class="alert"><%= session.delete(:message) %></p>
+<% end %>
+
+<form action="/new" method="post">
   <label for="filename">New document name:</label>
   <input name="filename" id="filename" />
   <button type="submit">Create</button>
