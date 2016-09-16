@@ -27,7 +27,11 @@ class AppTest < Minitest::Test
     end
   end
 
- def test_index
+  def session
+    last_request.env["rack.session"]
+  end
+
+  def test_index
     create_document "about.md"
     create_document "changes.txt"
     create_document "history.txt"
@@ -51,14 +55,14 @@ class AppTest < Minitest::Test
   end
 
   def test_not_existent_file
-    get "/changes.txt"
+    get "/xoxox.txt"
 
     assert_equal 302, last_response.status
 
     get last_response["Location"]
 
     assert_equal 200, last_response.status
-    assert_includes last_response.body, "changes.txt does not exist"
+    assert_includes last_response.body, "xoxox.txt does not exist"
   end
 
   def test_viewing_markdown_document
@@ -87,7 +91,7 @@ class AppTest < Minitest::Test
 
     get last_response["Location"]
 
-    assert_includes last_response.body, "changes.txt has been updated."#
+    assert_includes last_response.body, "changes.txt has been updated."
 
     get "/changes.txt"
 
@@ -121,23 +125,65 @@ class AppTest < Minitest::Test
   def test_create_new_document_without_name
     post "/new", filename: ""
     assert_equal 422, last_response.status
-    assert_includes last_response.body, "A name is required."
+
+    get last_response["Location"]
+    assert_equal last_response.body, "A name is required."
   end
 
   def test_delete_document
     create_document "hello.txt"
-    create_document "bye.txt"
 
     get "/"
     assert_includes last_response.body, "hello.txt"
-    assert_includes last_response.body, "bye.txt"
     assert_includes last_response.body, '<button type="submit">Delete</button>'
 
     post "/hello.txt/delete"
+    assert_equal 302, last_response.status
     assert_equal false, File.exist?('hello.txt')
     get last_response["Location"]
-
-    assert_equal 200, last_response.status
     assert_includes last_response.body, "hello.txt was deleted."
+
+    get "/"
+    refute_includes last_response.body, "hello.txt"
+  end
+
+  def test_signin_form
+    get "/users/signin"
+    
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, '<button type="submit">Sign In</button>'
+  end
+
+  def test_signin_right_credentials
+    post "/users/signin", username: 'admin', password: 'secret'
+
+    assert_equal 302, last_response.status
+    assert_equal "Welcome!", session[:message]
+    assert_equal "admin", session[:username]
+
+    get last_response["Location"]
+    assert_includes last_response.body, "Signed in as admin"
+    assert_includes last_response.body, "Sign Out"
+  end
+
+  def test_signin_bad_credentials
+    post "/users/signin", username: 'some111', password: 'pass'
+
+    assert_equal 422, last_response.status
+    assert_equal nil, session[:username]
+    assert_includes last_response.body, "Invalid Credentials"
+  end
+
+  def test_signout
+    get "/", {}, {"rack.session" => {username: 'admin'}}
+    assert_includes last_response.body, "Signed in as admin"
+
+    post "/users/signout"
+    get last_response["Location"]
+
+    assert_equal nil, session[:username]
+
+    assert_includes last_response.body, "You have been signed out"
+    assert_includes last_response.body, "Sign In"
   end
 end

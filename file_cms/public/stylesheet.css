@@ -18,3 +18,13 @@ body {
 li {
   list-style-type: decimal;
 }
+
+div * {
+  display: block;
+}
+
+.signin a {
+  font-style: italic;
+  font-size: 90%;
+  color: #000;
+}
